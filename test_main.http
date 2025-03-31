@@ -1,0 +1,37 @@
+# Test your FastAPI endpoints
+
+GET http://127.0.0.1:8000/
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/hello/User
+Accept: application/json
+
+
+###
+GET 127.0.0.1:8000/users/
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzMzgxMTUwfQ.opobZ77RSOYIbI_sD7Jp-Dy3_4RrQ_S7bAAR3LxJFoY
+
+
+###
+
+POST http://127.0.0.1:8000/auth/login-form
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+username=Matnazar04&password=20040730python
+
+
+###
+
+
+POST http://127.0.0.1:8000/auth/login-json
+Accept: application/json
+Content-Type: application/json
+
+{
+    "username": "Matnazar04",
+    "password": "20040730python"
+}
