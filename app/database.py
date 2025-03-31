@@ -1,10 +1,8 @@
 from tortoise import Tortoise
 from environs import Env
 
-
 env = Env()
 env.read_env()
-
 
 DATABASE_URL = env.str("DATABASE_URL")
 
@@ -18,6 +16,7 @@ TORTOISE_ORM = {
         },
     },
 }
+
 
 async def init():
     await Tortoise.init(config=TORTOISE_ORM)
