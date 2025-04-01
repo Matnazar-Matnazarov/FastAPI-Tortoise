@@ -17,3 +17,8 @@ class Comment(Model):
 
     class Meta:
         table = "comment"
+        indexes = [
+            ("post_id",),
+            ("is_active",),
+            ("user_id", "post_id", "is_active", "created"),
+        ]

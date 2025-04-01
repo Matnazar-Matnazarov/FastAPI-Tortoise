@@ -14,3 +14,8 @@ class Likes(Model):
 
     class Meta:
         table = "likes"
+        indexes = [
+            ("post_id",),
+            ("is_like",),
+            ("user_id", "post_id"),
+        ]

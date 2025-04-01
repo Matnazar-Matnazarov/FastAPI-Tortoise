@@ -14,3 +14,9 @@ class Images(Model):
 
     class Meta:
         table = "images"
+        indexes = [
+            ("post_id",),
+            ("is_active",),
+            ("post_id", "is_active"),
+        ]
+

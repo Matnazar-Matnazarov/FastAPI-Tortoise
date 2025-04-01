@@ -26,6 +26,10 @@ class User(Model):
 
     class Meta:
         table = "users"
+        indexes = [
+            ("is_staff",),
+            ("username", "email"),
+        ]
 
     def set_password(self, raw_password: str):
         self.password = bcrypt.hash(raw_password)

@@ -5,20 +5,31 @@ description = "Add your description here"
 requires-python = ">=3.12"
 dependencies = [
     "aerich>=0.8.2",
+    "aiohttp>=3.11.15",
     "asyncpg>=0.30.0",
     "bcrypt==4.0.1",
     "email-validator>=2.2.0",
     "environs>=14.1.1",
+    "fastadmin[fastapi,tortoise-orm]>=0.2.19",
     "fastapi>=0.115.12",
+    "fastapi-admin>=1.0.4",
+    "httptools>=0.6.4",
+    "httpx>=0.28.1",
+    "itsdangerous>=2.2.0",
+    "jinja2>=3.1.6",
     "passlib[bcrypt]>=1.7.4",
     "psycopg2-binary>=2.9.10",
     "pydantic>=2.11.1",
     "pyjwt>=2.10.1",
     "python-multipart>=0.0.20",
+    "redis>=5.2.1",
+    "requests>=2.32.3",
+    "setuptools>=78.1.0",
     "tomli-w>=1.2.0",
     "tomlkit>=0.13.2",
     "tortoise-orm>=0.24.2",
     "uvicorn>=0.34.0",
+    "uvloop>=0.21.0",
 ]
 
 [tool.aerich]

@@ -20,3 +20,7 @@ class Post(Model):
 
     class Meta:
         table = "post"
+        indexes = [
+            ("is_active",),
+            ("user_id", "created", "is_active"),
+        ]

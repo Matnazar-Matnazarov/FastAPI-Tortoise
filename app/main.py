@@ -1,12 +1,33 @@
 # app/main.py
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.openapi.utils import get_openapi
 from tortoise import Tortoise
 from app.database import init
 from app.routers import user, post, comment, comment_likes, likes, images
 from app.auth import auth
+from fastadmin import fastapi_app as admin_app
+from fastadmin import register
+from app.models.user import User
+from environs import Env
+from redis.asyncio import Redis
+from starlette.middleware.sessions import SessionMiddleware
+import uvloop
+import asyncio
+import uvicorn
+import time
+
+env = Env()
+env.read_env()
+
+DATABASE_URL = env.str("DATABASE_URL")
+JWT_SECRET_KEY = env.str("JWT_SECRET_KEY")
+
+asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+
+
+
 
 
 @asynccontextmanager
@@ -14,9 +35,7 @@ async def lifespan(application: FastAPI) -> AsyncGenerator:
     print(f"Starting up: Initializing {application.title}...")
     await init()
     print("Database initialized!")
-
     yield
-
     print("Shutting down: Closing database connections...")
     await Tortoise.close_connections()
     print("Database connections closed!")
@@ -30,9 +49,9 @@ app = FastAPI(
     ),
     version="1.0.0",
     contact={
-        "name": "Matnazar Aromatization",
+        "name": "Matnazar Matnazarov",
         "url": "https://github.com/Matnazar-Matnazarov",
-        "email": "matnazar@example.com",
+        "email": "matapi@example.com",
     },
     license_info={
         "name": "MIT License",
@@ -42,6 +61,15 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.perf_counter()
+    response = await call_next(request)
+    process_time = (time.perf_counter() - start_time) * 1000
+    response.headers["X-Process-Time-ms"] = f"{process_time:.3f} ms"
+    return response
+
 
 app.include_router(auth.router)
 app.include_router(user.router)
@@ -78,5 +106,18 @@ def custom_openapi():
     app.openapi_schema = openapi_schema
     return app.openapi_schema
 
+register(
+    app=admin_app,
+    db_url=DATABASE_URL,
+    modules=["app.models.user"],  # User modelini ro‘yxatdan o‘tkazish
+    admin_models=[User],  # Admin uchun User modelini ko‘rsatish
+    username_field="username",  # Foydalanuvchi nomini aniqlash uchun maydon
+    password_field="password",  # Parolni aniqlash uchun maydon
+)
+
+app.add_middleware(SessionMiddleware, secret_key=JWT_SECRET_KEY)
+
+app.mount("/admin", admin_app)
 
 app.openapi = custom_openapi
+

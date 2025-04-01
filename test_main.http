@@ -12,10 +12,10 @@ Accept: application/json
 ###
 GET 127.0.0.1:8000/users/
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzMzgxMTUwfQ.opobZ77RSOYIbI_sD7Jp-Dy3_4RrQ_S7bAAR3LxJFoY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNDQ0NDI5fQ.BemVEaTeDG0GKq7kRAh8k_Ci0Pyjacj5oB1YseGtLbs
 
 
-###
+### Login to get token (form)
 
 POST http://127.0.0.1:8000/auth/login-form
 Accept: application/json
@@ -24,7 +24,7 @@ Content-Type: application/x-www-form-urlencoded
 username=Matnazar04&password=20040730python
 
 
-###
+### Login to get token
 
 
 POST http://127.0.0.1:8000/auth/login-json
@@ -35,3 +35,107 @@ Content-Type: application/json
     "username": "Matnazar04",
     "password": "20040730python"
 }
+
+
+### Create new post with images
+POST http://127.0.0.1:8000/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTM2NDk0fQ.2iGAh6Yr_0efzxFqbGEIUGPTiMnQYB7XmZvqWTE95ek
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/PyCharm 2024.3.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+--boundary
+Content-Disposition: form-data; name="name"
+
+My First Post
+--boundary
+Content-Disposition: form-data; name="title"
+
+This is a test post
+--boundary
+Content-Disposition: form-data; name="text"
+
+This is the content of my first post. Hello World!
+--boundary
+Content-Disposition: form-data; name="images"; filename="test_image1.png"
+Content-Type: image/png
+
+< ./test_images/test_image1.png
+--boundary
+Content-Disposition: form-data; name="images"; filename="test_image2.png"
+Content-Type: image/png
+
+< ./test_images/test_image2.png
+--boundary--
+
+### Create new post without images
+POST http://127.0.0.1:8000/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNDQxMzQzfQ.Fg7aH3_KKzBDiXBHfPW2H-iCwJ7_5lDXJPni2AQBWGc
+Content-Type: multipart/form-data; boundary=boundary
+Accept: */*
+
+--boundary
+Content-Disposition: form-data; name="name"
+
+My Second Post
+--boundary
+Content-Disposition: form-data; name="title"
+
+Another test post
+--boundary
+Content-Disposition: form-data; name="text"
+
+This is a simple post without images.
+--boundary--
+
+### Get a specific post id
+GET http://127.0.0.1:8000/posts/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTM2NDk0fQ.2iGAh6Yr_0efzxFqbGEIUGPTiMnQYB7XmZvqWTE95ek
+Accept: application/json
+
+### Get all posts
+GET http://127.0.0.1:8000/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTQyMzE3fQ.Gny5YEmP4LM8if9FBg9BTjhalpJiiRvR0qtqQPx6s-s
+Accept: application/json
+
+### Get an image (replace {image_path} with actual path from response, e.g., uploads/UUID_test_image1.png)
+GET http://127.0.0.1:8000/images/{image_path}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNDQxMzQzfQ.Fg7aH3_KKzBDiXBHfPW2H-iCwJ7_5lDXJPni2AQBWGc
+Accept: image/png
+
+
+
+
+
+### Create new post with images
+POST http://127.0.0.1:8000/posts/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTAxMjg4fQ.b7DCz2ud4N7gKkVbBrhEKVA40Z7SeQj5BbVNST81MDI
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/PyCharm
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+--boundary
+Content-Disposition: form-data; name="name"
+
+My First Post
+--boundary
+Content-Disposition: form-data; name="title"
+
+This is a test post
+--boundary
+Content-Disposition: form-data; name="text"
+
+This is the content of my first post. Hello World!
+--boundary
+Content-Disposition: form-data; name="images"; filename="test_image1.png"
+Content-Type: image/png
+
+< ./test_images/test_image1.png
+--boundary
+Content-Disposition: form-data; name="images"; filename="test_image2.png"
+Content-Type: image/png
+
+< ./test_images/test_image2.png
+--boundary--

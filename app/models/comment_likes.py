@@ -14,3 +14,10 @@ class CommentLikes(Model):
 
     class Meta:
         table = "comment_likes"
+        indexes = [
+            ("comment_id",),
+            ("is_like",),
+            ("user_id", "comment_id", "is_like"),
+            ("user_id", "comment_id", "created"),
+        ]
+
