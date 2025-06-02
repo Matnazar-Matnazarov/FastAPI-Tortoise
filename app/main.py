@@ -2,17 +2,21 @@
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 from fastapi import FastAPI, Request
+from fastapi.responses import FileResponse
 from fastapi.openapi.utils import get_openapi
 from tortoise import Tortoise
 from app.database import init
 from app.routers import user, post, comment, comment_likes, likes, images
 from app.auth import auth
 from fastadmin import fastapi_app as admin_app
+from pathlib import Path
 from fastadmin import register
-from app.models.user import User
 from environs import Env
 from redis.asyncio import Redis
 from starlette.middleware.sessions import SessionMiddleware
+from app.models.user import User
+from tortoise import connections
+
 import uvloop
 import asyncio
 import uvicorn
@@ -23,9 +27,19 @@ env.read_env()
 
 DATABASE_URL = env.str("DATABASE_URL")
 JWT_SECRET_KEY = env.str("JWT_SECRET_KEY")
+BASE_DIR = Path(__file__).resolve().parent
+FAVICON_PATH = BASE_DIR / "static" / "favicon.png"
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
+# register(
+#     app=admin_app,
+#     db_url=DATABASE_URL,
+#     modules=["app.models.user", "app.models.post", "app.models.comment"],
+#     admin_models=[User],
+#     username_field="username",
+#     password_field="password",
+# )
 
 
 
@@ -51,7 +65,7 @@ app = FastAPI(
     contact={
         "name": "Matnazar Matnazarov",
         "url": "https://github.com/Matnazar-Matnazarov",
-        "email": "matapi@example.com",
+        "email": "matnazarmatnazarov3@gmail.com",
     },
     license_info={
         "name": "MIT License",
@@ -61,6 +75,7 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
+
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -85,6 +100,11 @@ async def root():
     return {"message": "Blog Post API - Welcome!"}
 
 
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(FAVICON_PATH)
+
+
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
@@ -106,18 +126,10 @@ def custom_openapi():
     app.openapi_schema = openapi_schema
     return app.openapi_schema
 
-register(
-    app=admin_app,
-    db_url=DATABASE_URL,
-    modules=["app.models.user"],  # User modelini ro‘yxatdan o‘tkazish
-    admin_models=[User],  # Admin uchun User modelini ko‘rsatish
-    username_field="username",  # Foydalanuvchi nomini aniqlash uchun maydon
-    password_field="password",  # Parolni aniqlash uchun maydon
-)
 
 app.add_middleware(SessionMiddleware, secret_key=JWT_SECRET_KEY)
 
 app.mount("/admin", admin_app)
 
 app.openapi = custom_openapi
-
+print(admin_app.routes)

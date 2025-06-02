@@ -6,7 +6,6 @@ from asgiref import sync
 from datetime import datetime
 
 
-# Timed dekorator
 def timed(func):
     def wrapper(*args, **kwargs):
         start = time.time()
@@ -25,14 +24,13 @@ timed.durations = []
 # URL va headers
 URL = "http://127.0.0.1:8000/posts/"
 HEADERS = {
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTQyMzE3fQ.Gny5YEmP4LM8if9FBg9BTjhalpJiiRvR0qtqQPx6s-s",
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTkyNjc0fQ.49RI7dcoCfu_0YUyVI1LK9pNr0sdsBgxiamgsg-RD9I",
     "Accept": "application/json",
     "User-Agent": "IntelliJ HTTP Client/PyCharm 2024.3.3",
     "Accept-Encoding": "br, deflate, gzip, x-gzip"
 }
 
 
-# 1. Sinxron requests bilan
 @timed
 def sync_requests_get_all(n_requests):
     session = requests.Session()

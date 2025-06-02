@@ -2,7 +2,8 @@ from tortoise.models import Model
 from tortoise import fields
 from datetime import datetime
 from app.config import settings
-
+from fastadmin import TortoiseModelAdmin, register
+from uuid import UUID
 
 class Comment(Model):
     id = fields.BigIntField(pk=True)
@@ -22,3 +23,17 @@ class Comment(Model):
             ("is_active",),
             ("user_id", "post_id", "is_active", "created"),
         ]
+
+@register(Comment)
+class CommentAdmin(TortoiseModelAdmin):
+    list_display = ("id", "user", "post", "is_active")
+    list_display_links = ("id", "user", "post")
+    list_filter = ("id", "user", "post", "is_active")
+    search_fields = ("user", "post")
+
+    async def get_user(self, user_id: int) -> UUID | int | None:
+        user = await User.filter(id=user_id).first()
+        if not user:
+            print(f"Foydalanuvchi autopilot: {user_id}")
+            return None
+        return user.id

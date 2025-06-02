@@ -42,7 +42,7 @@ async def create_new_post(
     except ValueError as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
-@router.get("/{post_id}", response_model=List[PostImage])
+@router.get("/{post_id}", response_model=PostImage)
 async def read_post(post_id: int, current_user: User = Depends(get_current_user)):
     db_post = await get_post(post_id)
     if db_post is None:

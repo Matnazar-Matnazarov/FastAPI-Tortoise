@@ -2,6 +2,8 @@ from tortoise.models import Model
 from tortoise import fields
 from app.config import settings
 from datetime import datetime
+from fastadmin import TortoiseModelAdmin, register
+from uuid import UUID
 
 
 class Post(Model):
@@ -24,3 +26,18 @@ class Post(Model):
             ("is_active",),
             ("user_id", "created", "is_active"),
         ]
+
+
+@register(Post)
+class PostAdmin(TortoiseModelAdmin):
+    list_display = ("id", "name", "title", "is_active")
+    list_display_links = ("id", "name")
+    list_filter = ("id", "name", "title", "is_active")
+    search_fields = ("name", "title")
+
+    async def get_user(self, user_id: int) -> UUID | int | None:
+        user = await User.filter(id=user_id).first()
+        if not user:
+            print(f"Foydalanuvchi autopilot: {user_id}")
+            return None
+        return user.id

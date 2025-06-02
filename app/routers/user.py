@@ -4,6 +4,7 @@ from app.schemas.user import User, UserCreate
 from app.crud.user import create_user, get_user, get_users
 from app.auth.jwt import get_current_user
 from app.models.user import User as UserModel
+from fastapi.responses import FileResponse
 
 router = APIRouter(prefix="/users", tags=["users"])
 

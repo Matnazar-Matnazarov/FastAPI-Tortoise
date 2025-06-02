@@ -2,7 +2,8 @@ from tortoise.models import Model
 from tortoise import fields
 from app.config import settings
 from datetime import datetime
-
+from fastadmin import TortoiseModelAdmin, register
+from uuid import UUID
 
 class Images(Model):
     id = fields.BigIntField(pk=True)
@@ -20,3 +21,15 @@ class Images(Model):
             ("post_id", "is_active"),
         ]
 
+@register(Images)
+class ImagesAdmin(TortoiseModelAdmin):
+    list_display = ("id", "image", "post", "is_active")
+    list_display_links = ("id", "image", "post")
+    list_filter = ("id", "image", "post", "is_active")
+    search_fields = ("image", "post")
+
+    async def get_post(self, post_id: int) -> UUID | int | None:
+        post = await Post.filter(id=post_id).first()
+        if not post:
+            print(f"Post autopilot: {post_id}")
+            return None

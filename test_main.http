@@ -39,7 +39,7 @@ Content-Type: application/json
 
 ### Create new post with images
 POST http://127.0.0.1:8000/posts/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTM2NDk0fQ.2iGAh6Yr_0efzxFqbGEIUGPTiMnQYB7XmZvqWTE95ek
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQ4ODQ3NDkxfQ.mHZe-KbD364sb4boVmCmZGqcA4l4aIAet6BBFXEgKpQ
 Content-Type: multipart/form-data; boundary=boundary
 User-Agent: IntelliJ HTTP Client/PyCharm 2024.3.3
 Accept-Encoding: br, deflate, gzip, x-gzip
@@ -71,7 +71,7 @@ Content-Type: image/png
 
 ### Create new post without images
 POST http://127.0.0.1:8000/posts/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNDQxMzQzfQ.Fg7aH3_KKzBDiXBHfPW2H-iCwJ7_5lDXJPni2AQBWGc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQ4ODQ3NDkxfQ.mHZe-KbD364sb4boVmCmZGqcA4l4aIAet6BBFXEgKpQ
 Content-Type: multipart/form-data; boundary=boundary
 Accept: */*
 
@@ -96,7 +96,7 @@ Accept: application/json
 
 ### Get all posts
 GET http://127.0.0.1:8000/posts/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTQyMzE3fQ.Gny5YEmP4LM8if9FBg9BTjhalpJiiRvR0qtqQPx6s-s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTkyNjc0fQ.49RI7dcoCfu_0YUyVI1LK9pNr0sdsBgxiamgsg-RD9I
 Accept: application/json
 
 ### Get an image (replace {image_path} with actual path from response, e.g., uploads/UUID_test_image1.png)

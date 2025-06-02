@@ -23,7 +23,6 @@ email-validator==2.2.0
 environs==14.1.1
 fastadmin==0.2.19
 fastapi==0.115.12
-fastapi-admin==1.0.4
 frozenlist==1.5.0
 h11==0.14.0
 httpcore==1.0.7
