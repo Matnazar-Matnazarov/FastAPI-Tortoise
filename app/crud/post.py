@@ -4,7 +4,10 @@ from app.schemas.post import PostCreate
 from app.crud.images import create_image
 from app.schemas.post import PostImage
 
-async def create_post(post: PostCreate, user_id: int, images: Optional[List] = None) -> Post:
+
+async def create_post(
+    post: PostCreate, user_id: int, images: Optional[List] = None
+) -> Post:
     db_post = Post(**post.model_dump(), user_id=user_id)
     await db_post.save()
 
@@ -17,11 +20,7 @@ async def create_post(post: PostCreate, user_id: int, images: Optional[List] = N
 
 async def get_post(post_id: int) -> Optional[PostImage]:
     post = await Post.get_or_none(id=post_id).prefetch_related(
-        "images",
-        "comments",
-        "likes",
-        "comments__user",
-        "likes__user"
+        "images", "comments", "likes", "comments__user", "likes__user"
     )
     if post:
         return PostImage.from_orm(post)
@@ -30,16 +29,14 @@ async def get_post(post_id: int) -> Optional[PostImage]:
 
 async def get_posts() -> List[PostImage]:
     posts = await Post.filter(is_active=True).prefetch_related(
-        "images",
-        "comments",
-        "likes",
-        "comments__user",
-        "likes__user"
+        "images", "comments", "likes", "comments__user", "likes__user"
     )
     return [PostImage.from_orm(post) for post in posts]
 
 
-async def update_post(post_id: int, post_data: PostCreate, images: Optional[List] = None) -> Optional[Post]:
+async def update_post(
+    post_id: int, post_data: PostCreate, images: Optional[List] = None
+) -> Optional[Post]:
     db_post = await Post.get_or_none(id=post_id)
     if not db_post:
         return None

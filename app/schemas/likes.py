@@ -3,6 +3,7 @@ from datetime import datetime
 from app.config import settings
 from app.schemas.user import User
 
+
 class LikesBase(BaseModel):
     is_like: bool = True
 

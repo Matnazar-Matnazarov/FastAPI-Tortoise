@@ -14,13 +14,9 @@ multipart_data = [
 
 # Fayllarni qo'shish
 with open("./test_images/test_image1.png", "rb") as f1:
-    multipart_data.append(
-        ("images", ("test_image1.png", f1.read(), "image/png"))
-    )
+    multipart_data.append(("images", ("test_image1.png", f1.read(), "image/png")))
 with open("./test_images/test_image2.png", "rb") as f2:
-    multipart_data.append(
-        ("images", ("test_image2.png", f2.read(), "image/png"))
-    )
+    multipart_data.append(("images", ("test_image2.png", f2.read(), "image/png")))
 
 # So'rovni yuborish
 response = requests.post(url, headers=headers, files=multipart_data)

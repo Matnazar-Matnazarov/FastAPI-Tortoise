@@ -9,7 +9,7 @@ from datetime import datetime
 def timed(func):
     def wrapper(*args, **kwargs):
         start = time.time()
-        print(f'{func.__name__:<30} started')
+        print(f"{func.__name__:<30} started")
         result = func(*args, **kwargs)
         duration = f"{func.__name__:<30} finished in {time.time() - start:.2f} seconds"
         print(duration)
@@ -27,7 +27,7 @@ HEADERS = {
     "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJNYXRuYXphcjA0IiwiZXhwIjoxNzQzNTkyNjc0fQ.49RI7dcoCfu_0YUyVI1LK9pNr0sdsBgxiamgsg-RD9I",
     "Accept": "application/json",
     "User-Agent": "IntelliJ HTTP Client/PyCharm 2024.3.3",
-    "Accept-Encoding": "br, deflate, gzip, x-gzip"
+    "Accept-Encoding": "br, deflate, gzip, x-gzip",
 }
 
 
@@ -51,7 +51,7 @@ def sync_requests_get_all(n_requests):
     statuses = [r[0] for r in results if r[0] is not None]
     times = [r[1] for r in results if r[1] is not None]
 
-    print(f"\nStatistika (sync_requests):")
+    print("\nStatistika (sync_requests):")
     print(f"Jami muvaffaqiyatli so'rovlar: {len(statuses)}")
     print(f"Umumiy vaqt: {total_time:.2f} ms")
     print(f"Ortacha vaqt: {sum(times) / len(times):.2f} ms")
@@ -80,14 +80,16 @@ def async_requests_get_all(n_requests):
         responses = await asyncio.gather(*tasks)
 
         for i, response in enumerate(responses, 1):
-            elapsed_time = (datetime.now() - start_time).total_seconds() * 1000 / n_requests  # Taxminiy
+            elapsed_time = (
+                (datetime.now() - start_time).total_seconds() * 1000 / n_requests
+            )  # Taxminiy
             results.append((response.status_code, elapsed_time))
 
         total_time = (datetime.now() - start_time).total_seconds() * 1000
         statuses = [r[0] for r in results if r[0] is not None]
         times = [r[1] for r in results if r[1] is not None]
 
-        print(f"\nStatistika (async_requests):")
+        print("\nStatistika (async_requests):")
         print(f"Jami muvaffaqiyatli so'rovlar: {len(statuses)}")
         print(f"Umumiy vaqt: {total_time:.2f} ms")
         print(f"Ortacha vaqt: {sum(times) / len(times):.2f} ms")
@@ -104,12 +106,14 @@ def async_requests_get_all(n_requests):
 def async_aiohttp_get_all(n_requests):
     async def get_all():
         async with aiohttp.ClientSession() as session:
+
             async def fetch(i):
                 try:
                     req_start = datetime.now()
                     async with session.get(URL, headers=HEADERS) as response:
-                        content = await response.read()
-                        elapsed_time = (datetime.now() - req_start).total_seconds() * 1000
+                        elapsed_time = (
+                            datetime.now() - req_start
+                        ).total_seconds() * 1000
                         return response.status, elapsed_time
                 except aiohttp.ClientError as e:
                     print(f"So'rov #{i} xatosi: {e}")
@@ -123,7 +127,7 @@ def async_aiohttp_get_all(n_requests):
             statuses = [r[0] for r in results if r[0] is not None]
             times = [r[1] for r in results if r[1] is not None]
 
-            print(f"\nStatistika (aiohttp):")
+            print("\nStatistika (aiohttp):")
             print(f"Jami muvaffaqiyatli so'rovlar: {len(statuses)}")
             print(f"Umumiy vaqt: {total_time:.2f} ms")
             print(f"Ortacha vaqt: {sum(times) / len(times):.2f} ms")
@@ -145,5 +149,5 @@ if __name__ == "__main__":
     print("\nStarting sync_requests_get_all...")
     sync_requests_get_all(N_REQUESTS)
 
-    print('\n----------------------')
+    print("\n----------------------")
     [print(duration) for duration in timed.durations]

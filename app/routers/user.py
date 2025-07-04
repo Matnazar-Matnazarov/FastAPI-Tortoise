@@ -4,7 +4,6 @@ from app.schemas.user import User, UserCreate
 from app.crud.user import create_user, get_user, get_users
 from app.auth.jwt import get_current_user
 from app.models.user import User as UserModel
-from fastapi.responses import FileResponse
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -27,7 +26,9 @@ async def read_user(user_id: int, current_user: UserModel = Depends(get_current_
 
     db_user = await get_user(user_id)
     if db_user is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
     return db_user
 
 

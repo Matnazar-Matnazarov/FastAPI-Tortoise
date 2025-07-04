@@ -10,8 +10,15 @@ TORTOISE_ORM = {
     "connections": {"default": DATABASE_URL},
     "apps": {
         "models": {
-            "models": ["app.models.user", "app.models.post", "app.models.comment",
-                       "app.models.comment_likes", "app.models.likes", "app.models.images", "aerich.models"],
+            "models": [
+                "app.models.user",
+                "app.models.post",
+                "app.models.comment",
+                "app.models.comment_likes",
+                "app.models.likes",
+                "app.models.images",
+                "aerich.models",
+            ],
             "default_connection": "default",
         },
     },

@@ -4,6 +4,8 @@ from datetime import datetime
 from app.config import settings
 from fastadmin import TortoiseModelAdmin, register
 from uuid import UUID
+from .user import User
+
 
 class Comment(Model):
     id = fields.BigIntField(pk=True)
@@ -11,8 +13,12 @@ class Comment(Model):
     post = fields.ForeignKeyField("models.Post", related_name="comments")
     comment = fields.TextField()
     is_active = fields.BooleanField(default=True)
-    created = fields.DatetimeField(auto_now_add=True, default=lambda: datetime.now(settings.TIMEZONE))
-    updated = fields.DatetimeField(auto_now=True, default=lambda: datetime.now(settings.TIMEZONE))
+    created = fields.DatetimeField(
+        auto_now_add=True, default=lambda: datetime.now(settings.TIMEZONE)
+    )
+    updated = fields.DatetimeField(
+        auto_now=True, default=lambda: datetime.now(settings.TIMEZONE)
+    )
 
     comment_likes = fields.ReverseRelation["CommentLikes"]
 
@@ -23,6 +29,7 @@ class Comment(Model):
             ("is_active",),
             ("user_id", "post_id", "is_active", "created"),
         ]
+
 
 @register(Comment)
 class CommentAdmin(TortoiseModelAdmin):

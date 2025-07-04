@@ -5,21 +5,16 @@ from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse
 from fastapi.openapi.utils import get_openapi
 from tortoise import Tortoise
-from app.database import init
-from app.routers import user, post, comment, comment_likes, likes, images
-from app.auth import auth
+from .database import init
+from .routers import user, post, comment, comment_likes, likes, images
+from .auth import auth
 from fastadmin import fastapi_app as admin_app
 from pathlib import Path
-from fastadmin import register
 from environs import Env
-from redis.asyncio import Redis
 from starlette.middleware.sessions import SessionMiddleware
-from app.models.user import User
-from tortoise import connections
 
 import uvloop
 import asyncio
-import uvicorn
 import time
 
 env = Env()
@@ -40,8 +35,6 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 #     username_field="username",
 #     password_field="password",
 # )
-
-
 
 
 @asynccontextmanager

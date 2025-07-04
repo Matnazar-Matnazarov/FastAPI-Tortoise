@@ -2,12 +2,15 @@ from pydantic import BaseModel
 from datetime import datetime
 from app.config import settings
 
+
 class ImagesBase(BaseModel):
     image: str
     is_active: bool = True
 
+
 class ImagesCreate(ImagesBase):
     pass
+
 
 class Images(ImagesBase):
     id: int

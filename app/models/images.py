@@ -4,14 +4,20 @@ from app.config import settings
 from datetime import datetime
 from fastadmin import TortoiseModelAdmin, register
 from uuid import UUID
+from .post import Post
+
 
 class Images(Model):
     id = fields.BigIntField(pk=True)
     image = fields.CharField(max_length=255)
     post = fields.ForeignKeyField("models.Post", related_name="images")
     is_active = fields.BooleanField(default=True)
-    created = fields.DatetimeField(auto_now_add=True, default=lambda: datetime.now(settings.TIMEZONE))
-    updated = fields.DatetimeField(auto_now=True, default=lambda: datetime.now(settings.TIMEZONE))
+    created = fields.DatetimeField(
+        auto_now_add=True, default=lambda: datetime.now(settings.TIMEZONE)
+    )
+    updated = fields.DatetimeField(
+        auto_now=True, default=lambda: datetime.now(settings.TIMEZONE)
+    )
 
     class Meta:
         table = "images"
@@ -20,6 +26,7 @@ class Images(Model):
             ("is_active",),
             ("post_id", "is_active"),
         ]
+
 
 @register(Images)
 class ImagesAdmin(TortoiseModelAdmin):

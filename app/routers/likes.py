@@ -10,12 +10,14 @@ router = APIRouter(prefix="/likes", tags=["likes"])
 
 @router.post("/{post_id}", response_model=Likes, status_code=status.HTTP_201_CREATED)
 async def create_new_like(
-        post_id: int,
-        like: LikesCreate,
-        current_user: User = Depends(get_current_user),
+    post_id: int,
+    like: LikesCreate,
+    current_user: User = Depends(get_current_user),
 ):
     if not await Post.filter(id=post_id).exists():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Post not found"
+        )
 
     try:
         return await create_like(like, current_user.id, post_id)
@@ -27,7 +29,9 @@ async def create_new_like(
 async def read_like(like_id: int, current_user: User = Depends(get_current_user)):
     db_like = await get_like(like_id)
     if db_like is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Like not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Like not found"
+        )
     if db_like.user_id != current_user.id and not current_user.is_staff:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

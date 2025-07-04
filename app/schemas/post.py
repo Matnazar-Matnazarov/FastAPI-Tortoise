@@ -3,7 +3,7 @@ from datetime import datetime
 from app.config import settings
 from app.schemas.images import Images
 from typing import List
-from app.models.images import Images as ImagesModel
+
 
 class PostBase(BaseModel):
     name: str

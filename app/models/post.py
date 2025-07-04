@@ -4,6 +4,7 @@ from app.config import settings
 from datetime import datetime
 from fastadmin import TortoiseModelAdmin, register
 from uuid import UUID
+from .user import User
 
 
 class Post(Model):
@@ -13,8 +14,12 @@ class Post(Model):
     title = fields.CharField(max_length=255)
     text = fields.TextField()
     is_active = fields.BooleanField(default=True)
-    created = fields.DatetimeField(auto_now_add=True, default=lambda: datetime.now(settings.TIMEZONE))
-    updated = fields.DatetimeField(auto_now=True, default=lambda: datetime.now(settings.TIMEZONE))
+    created = fields.DatetimeField(
+        auto_now_add=True, default=lambda: datetime.now(settings.TIMEZONE)
+    )
+    updated = fields.DatetimeField(
+        auto_now=True, default=lambda: datetime.now(settings.TIMEZONE)
+    )
 
     images = fields.ReverseRelation["Images"]
     comments = fields.ReverseRelation["Comment"]

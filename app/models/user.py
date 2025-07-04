@@ -5,7 +5,6 @@ from app.config import settings
 from datetime import datetime
 from fastadmin import TortoiseModelAdmin, register
 from uuid import UUID
-from passlib.hash import bcrypt
 
 
 class User(Model):
@@ -20,8 +19,12 @@ class User(Model):
     is_superuser = fields.BooleanField(default=False, null=True)
     picture = fields.CharField(max_length=255, null=True)
     phone = fields.CharField(max_length=20, null=True)
-    created = fields.DatetimeField(auto_now_add=True, default=lambda: datetime.now(settings.TIMEZONE))
-    updated = fields.DatetimeField(auto_now=True, default=lambda: datetime.now(settings.TIMEZONE))
+    created = fields.DatetimeField(
+        auto_now_add=True, default=lambda: datetime.now(settings.TIMEZONE)
+    )
+    updated = fields.DatetimeField(
+        auto_now=True, default=lambda: datetime.now(settings.TIMEZONE)
+    )
 
     posts = fields.ReverseRelation["Post"]
     comments = fields.ReverseRelation["Comment"]

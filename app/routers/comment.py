@@ -1,4 +1,3 @@
-from typing import List
 from fastapi import APIRouter, HTTPException, Depends, status
 from app.schemas.comment import Comment, CommentCreate
 from app.crud.comment import create_comment, get_comment
@@ -29,7 +28,9 @@ async def create_new_comment(
         HTTPException: Agar post topilmasa.
     """
     if not await Post.filter(id=post_id).exists():
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Post not found"
+        )
 
     try:
         return await create_comment(comment, current_user.id, post_id)
@@ -41,7 +42,9 @@ async def create_new_comment(
 async def read_comment(comment_id: int, current_user: User = Depends(get_current_user)):
     db_comment = await get_comment(comment_id)
     if db_comment is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Comment not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Comment not found"
+        )
     if db_comment.user_id != current_user.id and not current_user.is_staff:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

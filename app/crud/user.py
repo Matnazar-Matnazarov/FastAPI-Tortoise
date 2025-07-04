@@ -25,7 +25,9 @@ async def create_user(user: UserCreate) -> User:
 
 
 async def get_user(user_id: int) -> Optional[User]:
-    return await User.get_or_none(id=user_id).prefetch_related("posts", "comments", "likes")
+    return await User.get_or_none(id=user_id).prefetch_related(
+        "posts", "comments", "likes"
+    )
 
 
 async def get_users() -> List[User]:
